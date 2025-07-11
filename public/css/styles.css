@@ -1,0 +1,618 @@
+/* Reset styles outside the app */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Scope all app styles */
+.resume-search-app {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.resume-search-app .header-section {
+    background-color: #2563eb;
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 2rem;
+    position: relative;
+    display: block;
+}
+
+.resume-search-app .header-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.resume-search-app .header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0.4) 100%);
+    z-index: 0;
+}
+
+.resume-search-app .header-description {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+    color: white;
+}
+
+.resume-search-app .header-description p {
+    margin: 0.5rem 0;
+    color: white;
+}
+
+/* Search Widget Styles */
+.resume-search-app .resume-search-widget {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.resume-search-app .resume-search-widget * {
+    box-sizing: border-box;
+}
+
+.resume-search-app .resume-search-widget .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.resume-search-app .resume-search-widget label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.resume-search-app .resume-search-widget .input-field {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+}
+
+.resume-search-app .resume-search-widget .input-field:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Checkbox Styles */
+.resume-search-app .resume-search-widget .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.resume-search-app .resume-search-widget .checkbox {
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: #2563eb;
+}
+
+.resume-search-app .resume-search-widget .checkbox-label {
+    font-weight: 500;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Button Styles */
+.resume-search-app .resume-search-widget .button-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.resume-search-app .resume-search-widget .search-button {
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resume-search-app .resume-search-widget .search-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.resume-search-app .resume-search-widget .btn-google {
+    background-color: #2563eb;
+    color: white;
+}
+
+.resume-search-app .resume-search-widget .btn-google:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.resume-search-app .resume-search-widget .btn-linkedin {
+    background-color: #0077b5;
+    color: white;
+}
+
+.resume-search-app .resume-search-widget .btn-linkedin:hover {
+    background-color: #005582;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 119, 181, 0.3);
+}
+
+.resume-search-app .resume-search-widget .btn-github {
+    background-color: #24292e;
+    color: white;
+}
+
+.resume-search-app .resume-search-widget .btn-github:hover {
+    background-color: #1b1f23;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(36, 41, 46, 0.3);
+}
+
+/* Share Section Styles */
+.resume-search-app .share-section {
+    text-align: center;
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin: 2rem 0;
+    border: 2px solid #e2e8f0;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.resume-search-app .share-count {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #2563eb;
+    color: white;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.resume-search-app .share-count.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.resume-search-app .share-title {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.resume-search-app .share-description {
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.resume-search-app .share-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.resume-search-app .share-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: 140px;
+    justify-content: center;
+    color: white;
+}
+
+.resume-search-app .share-button.twitter {
+    background-color: #000000;
+}
+
+.resume-search-app .share-button.linkedin {
+    background-color: #0077b5;
+}
+
+.resume-search-app .share-button.copy-link {
+    background-color: #2563eb;
+}
+
+.resume-search-app .share-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating Share Panel */
+.resume-search-app .floating-share {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 100;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.resume-search-app .floating-share.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.resume-search-app .floating-share-count {
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.resume-search-app .floating-share-count .number {
+    display: block;
+    font-size: 1.125rem;
+    color: #2563eb;
+}
+
+.resume-search-app .floating-share-count .label {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.resume-search-app .floating-share-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+.resume-search-app .floating-share-button:hover {
+    transform: translateY(-2px);
+}
+
+.resume-search-app .floating-share-button.twitter {
+    background-color: #000000;
+}
+
+.resume-search-app .floating-share-button.linkedin {
+    background-color: #0077b5;
+}
+
+.resume-search-app .floating-share-button.copy-link {
+    background-color: #2563eb;
+}
+
+/* Benefits Section Styles */
+.resume-search-app .benefits-section {
+    background-color: #f8fafc;
+    padding: 4rem 20px;
+    margin-top: 4rem;
+    position: relative;
+}
+
+.resume-search-app .benefits-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #2563eb, transparent);
+}
+
+.resume-search-app .benefits-section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.resume-search-app .benefits-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.resume-search-app .benefits-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: #2563eb;
+    border-radius: 2px;
+}
+
+.resume-search-app .benefits-description {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.125rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+.resume-search-app .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.resume-search-app .benefit-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.resume-search-app .benefit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+}
+
+.resume-search-app .benefit-icon {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    display: inline-block;
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 12px;
+    line-height: 1;
+}
+
+.resume-search-app .benefit-heading {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.resume-search-app .benefit-description {
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Footer Styles */
+.resume-search-app .footer {
+    background-color: #1e293b;
+    color: #e2e8f0;
+    padding: 1.5rem 20px;
+    text-align: center;
+    margin-top: auto;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+    display: block;
+}
+
+.resume-search-app .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.resume-search-app .footer-about {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.resume-search-app .footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.resume-search-app .footer-links a {
+    color: #e2e8f0;
+    text-decoration: none;
+}
+
+.resume-search-app .footer-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .resume-search-app .header-section {
+        padding: 2rem 1rem;
+    }
+
+    .resume-search-app .header-section h1 {
+        font-size: 2rem;
+    }
+
+    .resume-search-app .header-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .resume-search-app .resume-search-widget {
+        padding: 15px;
+        margin: 0 1rem;
+    }
+
+    .resume-search-app .button-group {
+        grid-template-columns: 1fr;
+    }
+
+    .resume-search-app .share-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .resume-search-app .share-button {
+        width: 100%;
+    }
+
+    .resume-search-app .floating-share {
+        right: 1rem;
+        bottom: 1rem;
+        padding: 0.75rem;
+    }
+
+    .resume-search-app .floating-share-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .resume-search-app .benefits-section {
+        padding: 3rem 20px;
+    }
+
+    .resume-search-app .benefits-title {
+        font-size: 1.75rem;
+    }
+
+    .resume-search-app .benefits-description {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .resume-search-app .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .resume-search-app .benefit-card {
+        padding: 1.5rem;
+    }
+
+    .resume-search-app .benefit-icon {
+        font-size: 1.75rem;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .resume-search-app .benefit-heading {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .resume-search-app .header-section {
+        padding: 1.5rem 0.75rem;
+    }
+
+    .resume-search-app .header-section h1 {
+        font-size: 1.75rem;
+    }
+
+    .resume-search-app .resume-search-widget {
+        padding: 10px;
+        margin: 0 0.5rem;
+    }
+
+    .resume-search-app .input-field {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Tablet-specific adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .resume-search-app .resume-search-widget {
+        max-width: 90%;
+    }
+
+    .resume-search-app .button-group {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+
+    .resume-search-app .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+} 
