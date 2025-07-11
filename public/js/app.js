@@ -1,14 +1,26 @@
-// Constants
-const SHARE_API_URL = "https://api.aristotle.me/v1/share-counter"; // Share Counter API with versioning
+/*!
+ * Aris Resume Search v1.0.0
+ * A powerful tool to help job seekers find real-world resume examples
+ * MIT License | https://aristotle.me/resume-search
+ */
 
+// ==========================================================================
+// Constants and Configuration
+// ==========================================================================
+const SHARE_API_URL = "https://share-count-api.aristotle.me"; // Share Counter API
+
+// ==========================================================================
 // DOM Elements
+// ==========================================================================
 const jobTitleInput = document.getElementById('jobTitle');
 const excludeTemplatesCheckbox = document.getElementById('excludeTemplates');
 const googleButton = document.querySelector('.btn-google');
 const linkedinButton = document.querySelector('.btn-linkedin');
 const githubButton = document.querySelector('.btn-github');
 
+// ==========================================================================
 // URL Generation Functions
+// ==========================================================================
 function generateGoogleURL(jobTitle, excludeTemplates) {
     let query = `"${jobTitle}" AND (resume OR CV) filetype:pdf OR filetype:docx OR filetype:doc`;
     
@@ -32,7 +44,9 @@ function generateGitHubURL(jobTitle) {
     return `https://www.google.com/search?q=${encodedQuery}`;
 }
 
-// Validation function
+// ==========================================================================
+// Search Functionality
+// ==========================================================================
 function validateInput() {
     const jobTitle = jobTitleInput.value.trim();
     
@@ -44,7 +58,6 @@ function validateInput() {
     return true;
 }
 
-// Function to handle button clicks
 function handleSearch(platform, buttonElement) {
     // Validate input first
     if (!validateInput()) {
@@ -91,90 +104,80 @@ function handleSearch(platform, buttonElement) {
     }, 1000);
 }
 
-// Share functionality
+// ==========================================================================
+// Share Counter Functionality
+// ==========================================================================
 let totalShares = 0;
-let isLoadingShares = false;
 
-// Load initial share count with retry logic
-async function loadShareCount(retryCount = 3) {
-    if (isLoadingShares) return;
-    isLoadingShares = true;
-
+async function loadShareCount() {
     try {
         console.log('Fetching share count from API...');
         const response = await fetch(SHARE_API_URL, {
             method: 'GET',
             headers: {
-                'Accept': 'application/json',
-                'Cache-Control': 'no-cache'
+                'Accept': 'application/json'
             }
         });
         
+        console.log('API Response Status:', response.status);
+        const responseText = await response.text();
+        console.log('API Response Text:', responseText);
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}, response: ${responseText}`);
         }
         
-        const data = await response.json();
+        const data = JSON.parse(responseText);
+        console.log('Parsed API Response:', data);
         totalShares = data.count || 0;
+        console.log('Current total shares:', totalShares);
         updateShareCounts();
     } catch (error) {
         console.error('Failed to load share count:', error);
-        
-        // Retry logic
-        if (retryCount > 0) {
-            setTimeout(() => loadShareCount(retryCount - 1), 2000);
-            return;
-        }
-        
-        // Final fallback to localStorage
+        // Fallback to localStorage if API fails
         const savedCount = localStorage.getItem('arisResumeShareCount');
         if (savedCount) {
             totalShares = parseInt(savedCount, 10);
             updateShareCounts();
         }
-    } finally {
-        isLoadingShares = false;
     }
 }
 
-// Save share count with retry logic
-async function saveShareCount(retryCount = 3) {
+async function saveShareCount() {
     try {
+        console.log('Saving share to API...');
         const response = await fetch(SHARE_API_URL, {
             method: 'POST',
             headers: { 
-                'Content-Type': 'application/json',
-                'Cache-Control': 'no-cache'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 
-                action: 'increment',
-                timestamp: new Date().toISOString()
-            })
+            body: JSON.stringify({ action: 'increment' })
         });
+
+        console.log('Save Response Status:', response.status);
+        const data = await response.json();
+        console.log('Save Response Data:', data);
 
         if (!response.ok) {
             throw new Error(`Failed to save share count. Status: ${response.status}`);
         }
 
-        const data = await response.json();
+        // Update the total from the server response
         if (data.count !== undefined) {
             totalShares = data.count;
+            // Backup to localStorage
             localStorage.setItem('arisResumeShareCount', totalShares.toString());
+            console.log('Share count updated from API:', totalShares);
         }
+
         updateShareCounts();
     } catch (error) {
         console.error('Failed to save share count:', error);
-        
-        // Retry logic
-        if (retryCount > 0) {
-            setTimeout(() => saveShareCount(retryCount - 1), 2000);
-            return;
-        }
-        
-        // Final fallback to local increment
+        // Fallback to localStorage increment if API fails
         totalShares++;
         localStorage.setItem('arisResumeShareCount', totalShares.toString());
         updateShareCounts();
+        console.log('Share count incremented locally as fallback');
     }
 }
 
@@ -208,7 +211,9 @@ async function incrementShareCount() {
     await saveShareCount();
 }
 
-// Share functions
+// ==========================================================================
+// Share Button Functionality
+// ==========================================================================
 async function shareOnTwitter() {
     const text = "Discover real resumes and connect with professionals using Aris Resume Search. Built by a job seeker, for job seekers! \n#jobsearch #resumetips #careertools";
     const url = 'https://aristotle.me/resume-search/?utm_source=twitter';
@@ -255,7 +260,9 @@ async function copyPageUrl() {
     }
 }
 
-// Floating share panel visibility
+// ==========================================================================
+// Floating Share Panel
+// ==========================================================================
 const shareSection = document.querySelector('.share-section');
 const floatingShare = document.querySelector('.floating-share');
 let shareSectionTop;
@@ -283,29 +290,39 @@ function handleScroll() {
     }
 }
 
+// ==========================================================================
 // Event Listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Button click handlers
-    googleButton.addEventListener('click', () => handleSearch('Google', googleButton));
-    linkedinButton.addEventListener('click', () => handleSearch('LinkedIn', linkedinButton));
-    githubButton.addEventListener('click', () => handleSearch('GitHub', githubButton));
+// ==========================================================================
+// Add event listeners to buttons
+googleButton.addEventListener('click', function() {
+    handleSearch('Google', googleButton);
+});
 
-    // Enter key support for input field
-    jobTitleInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            handleSearch('Google', googleButton); // Default to Google search on Enter
-        }
-    });
+linkedinButton.addEventListener('click', function() {
+    handleSearch('LinkedIn', linkedinButton);
+});
 
-    // Initialize share functionality
-    loadShareCount();
+githubButton.addEventListener('click', function() {
+    handleSearch('GitHub', githubButton);
+});
+
+// Optional: Add Enter key support for the input field
+jobTitleInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        handleSearch('Google', googleButton); // Default to Google search on Enter
+    }
+});
+
+// Initialize positions and add event listeners
+window.addEventListener('load', () => {
     updateShareSectionPosition();
-    handleScroll();
+    handleScroll(); // Check initial position
+    loadShareCount(); // Load initial share count
+});
 
-    // Window event listeners
-    window.addEventListener('resize', () => {
-        updateShareSectionPosition();
-        handleScroll();
-    });
-    window.addEventListener('scroll', handleScroll);
-}); 
+window.addEventListener('resize', () => {
+    updateShareSectionPosition();
+    handleScroll(); // Check position after resize
+});
+
+window.addEventListener('scroll', handleScroll);
