@@ -62,7 +62,191 @@
     </script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="" id="main-styles">
+    <script>
+                 // Smart path detection for both local and online environments
+         function getBasePath() {
+             const hostname = window.location.hostname;
+             const pathname = window.location.pathname;
+             const port = window.location.port;
+             
+             // Local development - Resume Search App (Port 3333)
+             if (port === '3333') {
+                 return './';
+             }
+             
+             // Other local development environments
+             if (hostname === 'localhost' || 
+                 hostname === '127.0.0.1' || 
+                 hostname.includes('localhost') ||
+                 hostname.includes('192.168.') ||
+                 hostname.includes('10.0.')) {
+                 return './';
+             }
+             
+             // Online deployment on aristotle.me
+             if (hostname.includes('aristotle.me')) {
+                 if (pathname.includes('/resume-search/') || pathname === '/resume-search') {
+                     return '/resume-search/';
+                 }
+             }
+             
+             // Fallback for any other environment
+             return './';
+         }
+        
+                 // Set correct CSS path immediately
+         const basePath = getBasePath();
+         const cssLink = document.getElementById('main-styles');
+         cssLink.href = basePath + 'css/styles.css';
+         
+         // Add CSS error handling
+         cssLink.onload = function() {
+             console.log('CSS loaded successfully from:', cssLink.href);
+         };
+         
+         cssLink.onerror = function() {
+             console.error('Failed to load CSS from:', cssLink.href);
+             console.warn('Using fallback inline styles');
+         };
+         
+         // Store base path for later use
+         window.APP_BASE_PATH = basePath;
+         
+         // Debug information
+         const environment = basePath === './' ? 'LOCAL' : 'PRODUCTION';
+         console.log('🔧 Environment Detection:');
+         console.log('- Environment:', environment);
+         console.log('- Hostname:', window.location.hostname);
+         console.log('- Pathname:', window.location.pathname);
+         console.log('- Port:', window.location.port);
+         console.log('- Detected base path:', basePath);
+         console.log('- CSS path:', basePath + 'css/styles.css');
+         console.log('- JS path:', basePath + 'js/app.js');
+         console.log('---');
+    </script>
+    <style>
+        /* Critical CSS fallback to prevent unstyled content */
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        .resume-search-app { 
+            width: 100%; 
+            max-width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        .header-section { 
+            background-color: #2563eb; 
+            color: white; 
+            padding: 3rem 1rem; 
+            text-align: center; 
+            margin-bottom: 2rem;
+        }
+        .header-section h1 { 
+            font-size: 2.5rem; 
+            margin: 0 0 1rem 0; 
+            font-weight: 700;
+        }
+        .resume-search-widget { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+        }
+        .form-group { 
+            margin-bottom: 1.5rem; 
+        }
+        .input-field { 
+            width: 100%; 
+            padding: 0.875rem 1rem; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 8px; 
+            font-size: 1rem;
+        }
+        .button-group { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 1rem; 
+            margin-bottom: 1.5rem;
+        }
+        .search-button { 
+            padding: 0.875rem 1.5rem; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            height: 48px;
+            color: white;
+        }
+        .btn-google { background-color: #2563eb; }
+        .btn-linkedin { background-color: #0077b5; }
+        .btn-github { background-color: #24292e; }
+        .benefits-section { 
+            background-color: #f8fafc; 
+            padding: 4rem 1rem; 
+            margin-top: 4rem;
+        }
+        .benefits-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto;
+        }
+        .benefit-card { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 12px; 
+            text-align: center; 
+            border: 2px solid #e2e8f0;
+        }
+        .footer { 
+            background-color: #1e293b; 
+            color: #e2e8f0; 
+            padding: 1.5rem; 
+            text-align: center; 
+            margin-top: auto;
+        }
+        @media (max-width: 768px) {
+            .header-section h1 { font-size: 1.75rem; }
+            .button-group { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script>
+                 // CSS Loading Fallback
+         function checkCSSLoaded() {
+             const testElement = document.createElement('div');
+             testElement.className = 'resume-search-app';
+             document.body.appendChild(testElement);
+             
+             const computedStyle = window.getComputedStyle(testElement);
+             const isLoaded = computedStyle.display === 'flex';
+             
+             document.body.removeChild(testElement);
+             
+             if (!isLoaded) {
+                 console.warn('CSS failed to load, using fallback styles');
+                 console.log('Attempted CSS path:', document.getElementById('main-styles').href);
+                 // The inline styles above will serve as fallback
+             } else {
+                 console.log('CSS loaded successfully from:', document.getElementById('main-styles').href);
+             }
+         }
+        
+                 // Check CSS loading after page load
+         window.addEventListener('load', function() {
+             setTimeout(checkCSSLoaded, 100);
+         });
+    </script>
 </head>
 <body>
     <div class="resume-search-app">
@@ -196,6 +380,23 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/app.js"></script>
+    <script>
+        // Load JavaScript with correct path
+        const scriptElement = document.createElement('script');
+        scriptElement.src = window.APP_BASE_PATH + 'js/app.js';
+        scriptElement.async = false; // Ensure proper loading order
+        
+        // Add error handling
+        scriptElement.onload = function() {
+            console.log('JavaScript loaded successfully from:', scriptElement.src);
+        };
+        
+        scriptElement.onerror = function() {
+            console.error('Failed to load JavaScript from:', scriptElement.src);
+            console.error('Please check if the file exists and the path is correct');
+        };
+        
+        document.head.appendChild(scriptElement);
+    </script>
 </body>
 </html> 

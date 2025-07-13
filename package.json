@@ -1,0 +1,21 @@
+{
+  "name": "aris-resume-search",
+  "version": "1.0.0",
+  "description": "A modern web-based resume search tool that streamlines job hunting by enabling quick searches across Google, LinkedIn, and GitHub",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx http-server public -p 3333 -o --cors",
+    "dev": "npx http-server public -p 3333 -o --cors -c-1",
+    "serve": "npx http-server public -p 3333 --cors"
+  },
+  "keywords": ["resume", "search", "job", "hiring", "career"],
+  "author": "Aris",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aristotle-malichetty/aris-resume-search"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+} 

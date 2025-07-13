@@ -5,6 +5,31 @@
  */
 
 // ==========================================================================
+// Error Handling and Monitoring
+// ==========================================================================
+window.addEventListener('error', function(e) {
+    console.error('JavaScript Error:', e.error);
+    console.error('Error occurred in:', e.filename, 'at line:', e.lineno);
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('Unhandled Promise Rejection:', e.reason);
+});
+
+// Monitor CSS loading
+document.addEventListener('DOMContentLoaded', function() {
+    const cssLink = document.querySelector('link[href*="styles.css"]');
+    if (cssLink) {
+        cssLink.addEventListener('load', function() {
+            console.log('CSS loaded successfully');
+        });
+        cssLink.addEventListener('error', function() {
+            console.error('CSS failed to load');
+        });
+    }
+});
+
+// ==========================================================================
 // Constants and Configuration
 // ==========================================================================
 const SHARE_API_URL = "https://share-count-api.aristotle.me"; // Share Counter API
@@ -12,11 +37,98 @@ const SHARE_API_URL = "https://share-count-api.aristotle.me"; // Share Counter A
 // ==========================================================================
 // DOM Elements
 // ==========================================================================
-const jobTitleInput = document.getElementById('jobTitle');
-const excludeTemplatesCheckbox = document.getElementById('excludeTemplates');
-const googleButton = document.querySelector('.btn-google');
-const linkedinButton = document.querySelector('.btn-linkedin');
-const githubButton = document.querySelector('.btn-github');
+let jobTitleInput, excludeTemplatesCheckbox, googleButton, linkedinButton, githubButton;
+
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        jobTitleInput = document.getElementById('jobTitle');
+        excludeTemplatesCheckbox = document.getElementById('excludeTemplates');
+        googleButton = document.querySelector('.btn-google');
+        linkedinButton = document.querySelector('.btn-linkedin');
+        githubButton = document.querySelector('.btn-github');
+        
+        if (!jobTitleInput || !googleButton || !linkedinButton || !githubButton) {
+            console.error('Required DOM elements not found');
+            return;
+        }
+        
+        // Initialize the application
+        initializeApp();
+    } catch (error) {
+        console.error('Error initializing app:', error);
+    }
+});
+
+// ==========================================================================
+// Initialization
+// ==========================================================================
+function initializeApp() {
+    try {
+        // Add event listeners with error handling
+        if (googleButton) {
+            googleButton.addEventListener('click', () => {
+                try {
+                    handleSearch('google', googleButton);
+                } catch (error) {
+                    console.error('Error in Google search:', error);
+                }
+            });
+        }
+        
+        if (linkedinButton) {
+            linkedinButton.addEventListener('click', () => {
+                try {
+                    handleSearch('linkedin', linkedinButton);
+                } catch (error) {
+                    console.error('Error in LinkedIn search:', error);
+                }
+            });
+        }
+        
+        if (githubButton) {
+            githubButton.addEventListener('click', () => {
+                try {
+                    handleSearch('github', githubButton);
+                } catch (error) {
+                    console.error('Error in GitHub search:', error);
+                }
+            });
+        }
+        
+        // Load share count with error handling
+        loadShareCount().catch(error => {
+            console.error('Error loading share count:', error);
+        });
+        
+        // Setup floating share panel
+        setupFloatingShare();
+        
+        console.log('App initialized successfully');
+    } catch (error) {
+        console.error('Error during app initialization:', error);
+    }
+}
+
+function setupFloatingShare() {
+    try {
+        // Add scroll listener for floating share panel
+        window.addEventListener('scroll', handleScroll);
+        
+        // Update share section position
+        updateShareSectionPosition();
+        
+        // Set up periodic share count updates
+        setInterval(() => {
+            loadShareCount().catch(error => {
+                console.error('Error updating share count:', error);
+            });
+        }, 30000); // Update every 30 seconds
+        
+    } catch (error) {
+        console.error('Error setting up floating share:', error);
+    }
+}
 
 // ==========================================================================
 // URL Generation Functions

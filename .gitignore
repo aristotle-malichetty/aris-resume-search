@@ -92,4 +92,77 @@ Thumbs.db
 
 # Cloudflare
 .cloudflare/
-.wrangler/ 
+.wrangler/
+
+# Resume Search App - Development Files
+LOCAL_DEVELOPMENT.md
+start.sh
+start.bat
+
+# Local server files
+http-server.log
+server.log
+
+# Development notes and drafts
+notes.md
+TODO.md
+NOTES.txt
+draft*
+temp*
+
+# Personal configuration files
+.personal/
+personal-notes/
+my-notes/
+
+# Browser cache and session files
+.cache/
+.session/
+.cookies/
+
+# Local database files (if any)
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Local environment overrides
+.env.local
+.env.development
+.env.production
+
+# IDE workspace files
+*.code-workspace
+.history/
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+# Local testing files
+test-local/
+local-test/
+playground/
+
+# Analytics and tracking files
+analytics.json
+tracking.json
+stats.json
+
+# API keys and secrets (extra safety)
+api-keys.json
+secrets.json
+config.local.json 
