@@ -8,14 +8,27 @@
     "dev": "npx http-server public -p 3333 -o --cors -c-1",
     "serve": "npx http-server public -p 3333 --cors"
   },
-  "keywords": ["resume", "search", "job", "hiring", "career"],
+  "keywords": [
+    "resume",
+    "search",
+    "job",
+    "hiring",
+    "career"
+  ],
   "author": "Aris",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aristotle-malichetty/aris-resume-search"
+    "url": "git+https://github.com/aristotle-malichetty/aris-resume-search.git"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
-  }
-} 
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "bugs": {
+    "url": "https://github.com/aristotle-malichetty/aris-resume-search/issues"
+  },
+  "homepage": "https://github.com/aristotle-malichetty/aris-resume-search#readme"
+}
