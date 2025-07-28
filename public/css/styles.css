@@ -104,6 +104,8 @@ body {
 /* Form Elements */
 .resume-search-app .resume-search-widget .form-group {
     margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .resume-search-app .resume-search-widget label {
@@ -111,6 +113,9 @@ body {
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: #1e293b;
+    height: 2rem;
+    display: flex;
+    align-items: center;
 }
 
 .resume-search-app .resume-search-widget .input-field {
@@ -121,6 +126,7 @@ body {
     font-size: 1rem;
     transition: all 0.2s ease;
     background-color: #ffffff;
+    height: 3rem; /* Match the height of chips-input-container */
 }
 
 .resume-search-app .resume-search-widget .input-field:focus {
@@ -147,6 +153,342 @@ body {
     font-weight: 500;
     margin: 0;
     cursor: pointer;
+}
+
+/* ==========================================================================
+   Main Input Row Layout
+   ========================================================================== */
+
+.main-inputs-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.job-title-group {
+    flex: 1;
+    min-width: 0; /* Allows flex item to shrink below content size */
+}
+
+.skills-keywords-group {
+    flex: 1;
+    min-width: 0; /* Allows flex item to shrink below content size */
+}
+
+/* Mobile Layout - Stack vertically */
+@media (max-width: 768px) {
+    .main-inputs-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .job-title-group,
+    .skills-keywords-group {
+        flex: none;
+    }
+    
+    .resume-search-app .resume-search-widget .input-field,
+    .resume-search-app .resume-search-widget .chips-input-container {
+        height: 3rem;
+    }
+}
+
+/* Label with Tooltip and Inline Toggle */
+.resume-search-app .resume-search-widget .label-with-tooltip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    height: 2rem;
+}
+
+.resume-search-app .resume-search-widget .label-with-tooltip label {
+    margin: 0;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1;
+}
+
+/* Compact inline toggle */
+.resume-search-app .resume-search-widget .inline-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.resume-search-app .resume-search-widget .inline-toggle input[type="radio"] {
+    display: none;
+}
+
+.resume-search-app .resume-search-widget .toggle-slider {
+    background: transparent;
+    border-radius: 6px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+}
+
+.resume-search-app .resume-search-widget .toggle-slider:hover {
+    /* No hover effect on container */
+}
+
+.resume-search-app .resume-search-widget .toggle-option {
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.resume-search-app .resume-search-widget .toggle-separator {
+    display: none; /* Hide the separator */
+}
+
+.resume-search-app .resume-search-widget .and-option {
+    color: #6b7280;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.resume-search-app .resume-search-widget .or-option {
+    color: #6b7280;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+/* When OR is selected */
+.resume-search-app .resume-search-widget .inline-toggle input[value="or"]:checked ~ .toggle-slider .or-option {
+    color: white;
+    background: #f59e0b;
+    border-color: #f59e0b;
+}
+
+.resume-search-app .resume-search-widget .inline-toggle input[value="or"]:checked ~ .toggle-slider .and-option {
+    color: #6b7280;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+/* When AND is selected (default) */
+.resume-search-app .resume-search-widget .inline-toggle input[value="and"]:checked ~ .toggle-slider .and-option {
+    color: white;
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.resume-search-app .resume-search-widget .inline-toggle input[value="and"]:checked ~ .toggle-slider .or-option {
+    color: #6b7280;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+/* Remove the container background styles */
+.resume-search-app .resume-search-widget .inline-toggle input[value="or"]:checked ~ .toggle-slider {
+    background: transparent;
+    border: none;
+}
+
+.resume-search-app .resume-search-widget .inline-toggle input[value="and"]:checked ~ .toggle-slider {
+    background: transparent;
+    border: none;
+}
+
+.resume-search-app .resume-search-widget .tooltip-button {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+    line-height: 1;
+}
+
+.resume-search-app .resume-search-widget .tooltip-button:hover {
+    color: #2563eb;
+}
+
+.resume-search-app .resume-search-widget .tooltip-content {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    width: 350px;
+    max-width: 90vw;
+    word-break: normal;
+    overflow: visible;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.resume-search-app .resume-search-widget .tooltip-content::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #1e293b;
+}
+
+.resume-search-app .resume-search-widget .tooltip-button:hover + .tooltip-content,
+.resume-search-app .resume-search-widget .tooltip-content:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* Chips Input Container */
+.resume-search-app .resume-search-widget .chips-input-container {
+    position: relative;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0 1rem;
+    background-color: #ffffff;
+    height: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s ease;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+}
+
+.resume-search-app .resume-search-widget .chips-input-container:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.resume-search-app .resume-search-widget .chips-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    height: 100%;
+}
+
+.resume-search-app .resume-search-widget .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #2563eb;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    animation: chipAppear 0.2s ease;
+    margin: 0.25rem 0;
+}
+
+@keyframes chipAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.resume-search-app .resume-search-widget .chip-remove {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.resume-search-app .resume-search-widget .chip-remove:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.resume-search-app .resume-search-widget .chips-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    min-width: 120px;
+    font-size: 1rem;
+    padding: 0.25rem;
+    background: transparent;
+    text-align: left;
+    direction: ltr;
+    height: 100%;
+}
+
+.resume-search-app .resume-search-widget .chips-input::placeholder {
+    color: #94a3b8;
+    text-align: left;
+    direction: ltr;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .resume-search-app .resume-search-widget .tooltip-content {
+        bottom: calc(100% + 12px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        max-width: 85vw;
+    }
+    
+    .resume-search-app .resume-search-widget .tooltip-content::before {
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #1e293b;
+        border-bottom: none;
+    }
+    
+    .resume-search-app .resume-search-widget .tooltip-button:hover + .tooltip-content,
+    .resume-search-app .resume-search-widget .tooltip-content:hover {
+        transform: translateX(-50%) translateY(-4px);
+    }
+    
+    .resume-search-app .resume-search-widget .chips-input-container {
+        height: 3rem;
+        padding: 0 1rem;
+    }
 }
 
 /* Search Buttons */
