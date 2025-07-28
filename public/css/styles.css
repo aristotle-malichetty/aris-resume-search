@@ -368,12 +368,12 @@ body {
     position: relative;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
     background-color: #ffffff;
-    height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
     transition: border-color 0.2s ease;
     margin-bottom: 1rem;
@@ -390,7 +390,7 @@ body {
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
-    height: 100%;
+    min-height: 2rem;
 }
 
 .resume-search-app .resume-search-widget .chip {
@@ -447,13 +447,18 @@ body {
     background: transparent;
     text-align: left;
     direction: ltr;
-    height: 100%;
+    min-height: 2rem;
 }
 
 .resume-search-app .resume-search-widget .chips-input::placeholder {
     color: #94a3b8;
     text-align: left;
     direction: ltr;
+}
+
+/* Hide placeholder when chips exist */
+.resume-search-app .resume-search-widget .chips-input.has-chips::placeholder {
+    color: transparent;
 }
 
 /* Mobile Responsive */
@@ -482,8 +487,8 @@ body {
     }
     
     .resume-search-app .resume-search-widget .chips-input-container {
-        height: 3rem;
-        padding: 0 1rem;
+        min-height: 3rem;
+        padding: 0.5rem 1rem;
     }
 }
 

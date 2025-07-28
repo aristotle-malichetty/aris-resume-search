@@ -57,6 +57,13 @@ function renderChips() {
         `;
         chipsDisplay.appendChild(chip);
     });
+    
+    // Update placeholder visibility based on whether chips exist
+    if (keywords.length > 0) {
+        skillsKeywordsInput.classList.add('has-chips');
+    } else {
+        skillsKeywordsInput.classList.remove('has-chips');
+    }
 }
 
 function generateKeywordsQuery(keywordsArray = keywords) {
