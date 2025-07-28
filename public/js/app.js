@@ -18,12 +18,87 @@ const googleButton = document.querySelector('.btn-google');
 const linkedinButton = document.querySelector('.btn-linkedin');
 const githubButton = document.querySelector('.btn-github');
 
+// Skills/Keywords elements
+const skillsKeywordsInput = document.getElementById('skillsKeywords');
+const chipsDisplay = document.getElementById('chipsDisplay');
+const logicAndRadio = document.getElementById('logicAnd');
+const logicOrRadio = document.getElementById('logicOr');
+
+// ==========================================================================
+// Skills/Keywords Management
+// ==========================================================================
+let keywords = [];
+
+function addKeyword(keyword) {
+    const trimmedKeyword = keyword.trim();
+    if (trimmedKeyword && !keywords.includes(trimmedKeyword)) {
+        keywords.push(trimmedKeyword);
+        renderChips();
+    }
+}
+
+function removeKeyword(keyword) {
+    keywords = keywords.filter(k => k !== keyword);
+    renderChips();
+}
+
+function renderChips() {
+    chipsDisplay.innerHTML = '';
+    keywords.forEach(keyword => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.innerHTML = `
+            <span>${keyword}</span>
+            <button type="button" class="chip-remove" onclick="removeKeyword('${keyword}')" aria-label="Remove ${keyword}">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        `;
+        chipsDisplay.appendChild(chip);
+    });
+}
+
+function generateKeywordsQuery(keywordsArray = keywords) {
+    if (keywordsArray.length === 0) return '';
+    
+    const isAndLogic = logicAndRadio.checked;
+    const keywordQueries = keywordsArray.map(keyword => `intext:"${keyword}"`);
+    
+    if (isAndLogic) {
+        return keywordQueries.join(' ');
+    } else {
+        return keywordQueries.join(' OR ');
+    }
+}
+
 // ==========================================================================
 // URL Generation Functions
 // ==========================================================================
-function generateGoogleURL(jobTitle, excludeTemplates) {
-    let query = `"${jobTitle}" AND (resume OR CV) filetype:pdf OR filetype:docx OR filetype:doc`;
+function generateGoogleURL(jobTitle, excludeTemplates, keywords = []) {
+    let query = '';
     
+    // Add job title if provided
+    if (jobTitle) {
+        query = `"${jobTitle}" AND (resume OR CV) filetype:pdf OR filetype:docx OR filetype:doc`;
+    }
+    
+    // Add keywords if provided
+    if (keywords.length > 0) {
+        const keywordsQuery = generateKeywordsQuery(keywords);
+        if (query) {
+            query += ` AND (${keywordsQuery})`;
+        } else {
+            query = `(${keywordsQuery}) AND (resume OR CV) filetype:pdf OR filetype:docx OR filetype:doc`;
+        }
+    }
+    
+    // If no job title or keywords, create a basic resume search
+    if (!query) {
+        query = '(resume OR CV) filetype:pdf OR filetype:docx OR filetype:doc';
+    }
+    
+    // Add template exclusion if requested
     if (excludeTemplates) {
         query += ' -intitle:sample -intitle:template';
     }
@@ -32,16 +107,72 @@ function generateGoogleURL(jobTitle, excludeTemplates) {
     return `https://www.google.com/search?q=${encodedQuery}`;
 }
 
-function generateLinkedInURL(jobTitle) {
-    const query = `site:linkedin.com/in "${jobTitle}" AND (intitle:resume OR intext:"view my resume" OR intext:"download my resume" OR intext:"resume attached" OR intext:"my resume")`;
+function generateLinkedInURL(jobTitle, keywords = []) {
+    let query = '';
+    
+    // Add job title if provided
+    if (jobTitle) {
+        query = `site:linkedin.com/in "${jobTitle}" AND (intitle:resume OR intext:"view my resume" OR intext:"download my resume" OR intext:"resume attached" OR intext:"my resume")`;
+    }
+    
+    // Add keywords if provided
+    if (keywords.length > 0) {
+        const keywordsQuery = generateKeywordsQuery(keywords);
+        if (query) {
+            query += ` AND (${keywordsQuery})`;
+        } else {
+            query = `site:linkedin.com/in (${keywordsQuery}) AND (intitle:resume OR intext:"view my resume" OR intext:"download my resume" OR intext:"resume attached" OR intext:"my resume")`;
+        }
+    }
+    
+    // If no job title or keywords, create a basic LinkedIn resume search
+    if (!query) {
+        query = 'site:linkedin.com/in (intitle:resume OR intext:"view my resume" OR intext:"download my resume" OR intext:"resume attached" OR intext:"my resume")';
+    }
+    
     const encodedQuery = encodeURIComponent(query);
     return `https://www.google.com/search?q=${encodedQuery}`;
 }
 
-function generateGitHubURL(jobTitle) {
-    const query = `site:github.com "${jobTitle}" AND (inurl:resume OR inurl:CV OR inurl:Portfolio OR intitle:Portfolio OR intitle:resume OR intitle:CV)`;
+function generateGitHubURL(jobTitle, keywords = []) {
+    let query = '';
+    
+    // Add job title if provided
+    if (jobTitle) {
+        query = `site:github.com "${jobTitle}" AND (inurl:resume OR inurl:CV OR inurl:Portfolio OR intitle:Portfolio OR intitle:resume OR intitle:CV)`;
+    }
+    
+    // Add keywords if provided
+    if (keywords.length > 0) {
+        const keywordsQuery = generateKeywordsQuery(keywords);
+        if (query) {
+            query += ` AND (${keywordsQuery})`;
+        } else {
+            query = `site:github.com (${keywordsQuery}) AND (inurl:resume OR inurl:CV OR inurl:Portfolio OR intitle:Portfolio OR intitle:resume OR intitle:CV)`;
+        }
+    }
+    
+    // If no job title or keywords, create a basic GitHub resume search
+    if (!query) {
+        query = 'site:github.com (inurl:resume OR inurl:CV OR inurl:Portfolio OR intitle:Portfolio OR intitle:resume OR intitle:CV)';
+    }
+    
     const encodedQuery = encodeURIComponent(query);
     return `https://www.google.com/search?q=${encodedQuery}`;
+}
+
+// Toggle logic function for compact toggle
+function toggleLogic() {
+    const andRadio = document.getElementById('logicAnd');
+    const orRadio = document.getElementById('logicOr');
+    
+    if (andRadio.checked) {
+        orRadio.checked = true;
+        andRadio.checked = false;
+    } else {
+        andRadio.checked = true;
+        orRadio.checked = false;
+    }
 }
 
 // ==========================================================================
@@ -50,8 +181,8 @@ function generateGitHubURL(jobTitle) {
 function validateInput() {
     const jobTitle = jobTitleInput.value.trim();
     
-    if (jobTitle === '') {
-        alert('Please enter a job title');
+    if (jobTitle === '' && keywords.length === 0) {
+        alert('Please enter a job title or at least one keyword');
         return false;
     }
     
@@ -77,19 +208,20 @@ function handleSearch(platform, buttonElement) {
     let url;
     switch (platform) {
         case 'Google':
-            url = generateGoogleURL(jobTitle, excludeTemplates);
+            url = generateGoogleURL(jobTitle, excludeTemplates, keywords);
             break;
         case 'LinkedIn':
-            url = generateLinkedInURL(jobTitle);
+            url = generateLinkedInURL(jobTitle, keywords);
             break;
         case 'GitHub':
-            url = generateGitHubURL(jobTitle);
+            url = generateGitHubURL(jobTitle, keywords);
             break;
     }
 
     // Log to console for debugging
     console.log(`Search ${platform}:`);
     console.log('Job Title:', jobTitle);
+    console.log('Keywords:', keywords);
     console.log('Exclude Templates:', excludeTemplates);
     console.log('Generated URL:', url);
     console.log('---');
@@ -306,7 +438,38 @@ githubButton.addEventListener('click', function() {
     handleSearch('GitHub', githubButton);
 });
 
-// Optional: Add Enter key support for the input field
+// Skills/Keywords input event listeners
+skillsKeywordsInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === ',') {
+        event.preventDefault();
+        const keyword = skillsKeywordsInput.value.trim();
+        if (keyword) {
+            addKeyword(keyword);
+            skillsKeywordsInput.value = '';
+        }
+    } else if (event.key === 'Backspace' && skillsKeywordsInput.value === '' && keywords.length > 0) {
+        // Remove last keyword when backspace is pressed on empty input
+        removeKeyword(keywords[keywords.length - 1]);
+    }
+});
+
+skillsKeywordsInput.addEventListener('blur', function() {
+    const keyword = skillsKeywordsInput.value.trim();
+    if (keyword) {
+        addKeyword(keyword);
+        skillsKeywordsInput.value = '';
+    }
+});
+
+// Logic toggle event listeners
+logicAndRadio.addEventListener('change', function() {
+    // Logic changed - no preview update needed
+});
+logicOrRadio.addEventListener('change', function() {
+    // Logic changed - no preview update needed
+});
+
+// Optional: Add Enter key support for the job title input field
 jobTitleInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         handleSearch('Google', googleButton); // Default to Google search on Enter

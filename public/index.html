@@ -75,14 +75,51 @@
         </header>
 
         <div class="resume-search-widget">
-            <div class="form-group">
-                <label for="jobTitle">Job Title</label>
-                <input 
-                    type="text" 
-                    id="jobTitle" 
-                    class="input-field" 
-                    placeholder="Enter job title (e.g., Data Scientist)"
-                >
+            <!-- Main Input Row for Desktop -->
+            <div class="main-inputs-row">
+                <div class="form-group job-title-group">
+                    <label for="jobTitle">Job Title</label>
+                    <input 
+                        type="text" 
+                        id="jobTitle" 
+                        class="input-field" 
+                        placeholder="Enter job title (e.g., Data Scientist)"
+                    >
+                </div>
+
+                <!-- Skills/Keywords Field -->
+                <div class="form-group skills-keywords-group">
+                    <div class="label-with-tooltip">
+                        <label for="skillsKeywords">Skills/Keywords (optional)</label>
+                        <div class="inline-toggle">
+                            <input type="radio" id="logicAnd" name="keywordLogic" value="and" checked>
+                            <input type="radio" id="logicOr" name="keywordLogic" value="or">
+                            <div class="toggle-slider" onclick="toggleLogic()">
+                                <span class="toggle-option and-option">AND</span>
+                                <span class="toggle-separator">|</span>
+                                <span class="toggle-option or-option">OR</span>
+                            </div>
+                        </div>
+                        <button type="button" class="tooltip-button" aria-label="Help about skills and keywords">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                            </svg>
+                        </button>
+                        <div class="tooltip-content">
+                            Enter skills, certifications, company names, or other resume keywords. Toggle between AND (strict - all keywords required) and OR (broad - any keyword matches).
+                        </div>
+                    </div>
+                    
+                    <div class="chips-input-container">
+                        <div class="chips-display" id="chipsDisplay"></div>
+                        <input 
+                            type="text" 
+                            id="skillsKeywords" 
+                            class="chips-input" 
+                            placeholder="E.g. Python, R, PMP"
+                        >
+                    </div>
+                </div>
             </div>
 
             <div class="checkbox-group">
@@ -198,4 +235,4 @@
     <!-- Scripts -->
     <script src="./js/app.js"></script>
 </body>
-</html> 
+</html>
