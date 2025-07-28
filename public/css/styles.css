@@ -238,10 +238,6 @@ body {
     position: relative;
 }
 
-.resume-search-app .resume-search-widget .toggle-slider:hover {
-    /* No hover effect on container */
-}
-
 .resume-search-app .resume-search-widget .toggle-option {
     font-size: 12px;
     font-weight: 600;
