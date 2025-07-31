@@ -51,16 +51,28 @@ git clone https://github.com/yourusername/aris-resume-search.git
 cd aris-resume-search
 ```
 
-3. Open `index.html` in your browser or use a local server:
-```bash
-# Using Python
-python -m http.server 8000
+3. Start the development server:
 
-# Using Node.js
-npx http-server
+**⚡ Recommended (uses port 3333):**
+```bash
+# Using npm scripts (preferred)
+npm start        # Starts server and opens browser
+npm run dev      # Development mode with no cache
+npm run serve    # Server only, no auto-open
 ```
 
-4. Visit `http://localhost:8000` in your browser
+**Alternative methods:**
+```bash
+# Using Python
+python -m http.server 3333
+
+# Using Node.js http-server directly
+npx http-server public -p 3333 -o
+```
+
+4. Visit `http://localhost:3333` in your browser
+
+> **Note:** This project is configured to use **port 3333** by default. All npm scripts use this port for consistency.
 
 ## 🤝 Contributing
 
@@ -93,4 +105,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 The project includes a share counter API to track usage and sharing statistics. This helps us understand how the tool is helping the community.
 
 ---
-⭐ If you found this tool helpful, please consider giving it a star! 
+⭐ If you found this tool helpful, please consider giving it a star!

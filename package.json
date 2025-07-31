@@ -1,4 +1,5 @@
 {
+  "_comment": "This project uses port 3333 for the development server. All scripts are configured to use this port.",
   "name": "aris-resume-search",
   "version": "1.0.0",
   "description": "A modern web-based resume search tool that streamlines job hunting by enabling quick searches across Google, LinkedIn, and GitHub",
